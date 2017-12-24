@@ -18,29 +18,29 @@ public class Manacher {
         int[] radius = new int[word.length];
         int center = 0,
                 right = 0;
-        int m, n = 0;
+        int last, first = 0;
 
         for (int i = 1; i < word.length; i++) {
             if (i > right) {
                 radius[i] = 0;
-                m = i - 1;
-                n = i + 1;
+                last = i - 1;
+                first = i + 1;
             } else {
                 int index = center * 2 - i;
                 if (radius[index] < (right - i)) {
                     radius[i] = radius[index];
-                    m = -1;
+                    last = -1;
                 } else {
                     radius[i] = right - i;
-                    n = right + 1;
-                    m = i * 2 - n;
+                    first = right + 1;
+                    last = i * 2 - first;
                 }
             }
 
-            while (m >= 0 && n < word.length && word[m] == word[n]) {
+            while (last >= 0 && first < word.length && word[last] == word[first]) {
                 radius[i]++;
-                m--;
-                n++;
+                last--;
+                first++;
             }
 
             if ((i + radius[i]) > right) {
